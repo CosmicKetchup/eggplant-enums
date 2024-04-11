@@ -1,0 +1,18 @@
+﻿{
+    CaptureDate = "2024-04-10 12:33:54 +0000";
+    CaptureHost = "Unraid: Windows 10";
+    CaptureScreenSize = (
+        1920,
+        1080);
+    HasAlpha = 0;
+    HotSpotX = 18;
+    HotSpotY = 18;
+    LastKnownLocationX = 0;
+    LastKnownLocationY = 0;
+    OriginalLocationX = 343;
+    OriginalLocationY = 305;
+    Precise = 1;
+    Pulsing = 0;
+    Scale = 1;
+    tags = ();
+}

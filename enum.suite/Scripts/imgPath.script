@@ -1,0 +1,92 @@
+﻿(* 
+This is an example of using the enum mechanism for storing image paths of elements within a website or application. The deeply-nested hierarchy of the image folder allows you to reference a static "key" for an element, and the forKey function provides the ability to extract the associated string value. After that, you can simply concatenate any additional state of the element as necessary:
+
+        put imgPath.forKey("sys_close_window_btn") into closeWindowButton
+        moveTo closeWindowButton
+        assert that imageFound(image: closeWindowButton & "hover/", waitFor: 10)
+
+As with all enum scripts, you have the ability to extend this base functionality by defining additional function which consume N parameter(s) for the purpose of modifying the value of a resulting hard-coded enum key:
+
+       put imgPath.taskbarIconFor("calculator") into taskbarIcon
+       click taskbarIcon
+       put taskbarIcon & "active/" into activeTaskbarIcon
+       assert that imageFound(image: activeTaskbarIcon, waitFor: 30)
+
+       put imgPath.forNumber(7) into numSeven
+       moveTo numSeven
+       assert that imageFound(image: numSeven & "hover/", waitFor 10)
+
+These 'factory' handlers help with (a) providing a discrete method for retrieving specific values which often or always require further concatenation or data manipulation while (b) preserving the overall readability of the code.
+*)
+
+put "calculator/" into calcPath
+put calcPath & "buttons/" into calcBtnPath
+put calcPath & "tabs/" into calcTabPath
+
+put "system/" into sysPath
+put sysPath & "buttons/" into sysBtnPath
+
+set imagePaths to {
+
+	### CALCULATOR
+	calc_clear_btn: calcBtnPath & "clear_button",
+	calc_decimal_btn: calcBtnPath & "decimal_button",
+	calc_history_tab: calcTabPath & "history_tab",
+	calc_memstore_btn: calcBtnPath & "memory_store_button",
+	calc_menu_btn: calcBtnPath & "menu_button",
+	calc_numpad: calcPath & "numpad",
+	calc_operators: calcPath & "operators",
+	
+	### OPERATING SYSTEM
+	sys_close_window_btn: sysBtnPath & "window_close",
+	sys_max_window_btn: sysBtnPath & "window_maximize",
+	sys_restore_window_btn: sysBtnPath & "window_restore",
+	sys_taskbar_icon: sysPath & "taskbar_icons",
+}
+
+return imagePaths
+
+
+-- -- -- -- -- -- -- -- -- -- // -- -- -- -- -- -- -- -- -- -- 
+
+
+// Returns the value associated with the specified top-level key
+-- Example: log imgPath.forKey("calc_decimal_btn")
+function forKey imgKey
+	put the strictProperties into origSP
+	set the strictProperties to true
+	
+	put the duplicatePropertyKeyMode into origDPKM
+	set the duplicatePropertyKeyMode to error
+	
+	put imgPath().(imgKey) into imagePath
+	set the strictProperties to origSP
+	set the duplicatePropertykeyMode to origDPKM
+	
+	if the last character of imagePath is "/" then return imagePath
+	else return imagePath & "/"
+end forKey
+
+
+// Returns the image path for the specified number
+-- Example: log imgPath.forNumber(7)
+function forNumber num
+	assert that (0..9 as a list) contains num
+	return imgPath.forKey("calc_numpad") & num & "/"
+end forNumber
+
+
+// Returns the image path for the specified operator
+-- Example: log imgPath.forOperator("add")
+function forOperator op
+	assert that ["divide", "multiply", "subtract", "add", "equals"] contains op
+	return imgPath.forKey("calc_operators") & op & "/"
+end forOperator
+
+
+// Returns the image path for the specified application's taskbar icon
+-- Example: log imgPath.taskbarIconFor("calculator")
+function taskbarIconFor appName
+	assert that ["calculator"] contains appName
+	return imgPath.forKey("sys_taskbar_icon") & appName & "/"
+end taskbarIconFor

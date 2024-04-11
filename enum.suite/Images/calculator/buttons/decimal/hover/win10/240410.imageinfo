@@ -1,0 +1,20 @@
+﻿{
+    CaptureDate = "2024-04-10 12:29:28 +0000";
+    CaptureHost = "Unraid: Windows 10";
+    CaptureScreenSize = (
+        "1920",
+        "1080");
+    HasAlpha = 0;
+    HotSpotX = 24;
+    HotSpotY = 22;
+    ImageDescription = <>;
+    LastKnownLocationX = 0;
+    LastKnownLocationY = 0;
+    OriginalLocationX = 975;
+    OriginalLocationY = 958;
+    Precise = 1;
+    Pulsing = 0;
+    Scale = 1;
+    SearchObjectName = "calculator/buttons/decimal/hover/win10/240410";
+    tags = ();
+}
