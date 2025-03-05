@@ -19,29 +19,52 @@ As with all enum scripts, you have the ability to extend this base functionality
 These 'factory' handlers help with (a) providing a discrete method for retrieving specific values which often or always require further concatenation or data manipulation while (b) preserving the overall readability of the code.
 *)
 
+put "browser/" into browserPath
+put browserPath & "buttons/" into browserBtnPath
+
 put "calculator/" into calcPath
 put calcPath & "buttons/" into calcBtnPath
 put calcPath & "tabs/" into calcTabPath
 
 put "system/" into sysPath
-put sysPath & "buttons/" into sysBtnPath
+put sysPath & "btns/" into sysBtnPath
+
+put "website/" into wwwPath
+put wwwPath & "btns/" into wwwBtnPath
 
 set imagePaths to {
 
+	### BROWSER
+	browser_extensions_btn: browserBtnPath & "extensions",
+	browser_favorites_btn: browserBtnPath & "favorites",
+	browser_pgback_btn: browserBtnPath & "pg_back",
+	browser_pgfwd_btn: browserBtnPath & "pg_fwd",
+	browser_refresh_btn: browserBtnPath & "refresh",
+	browser_stop_btn: browserBtnPath & "stop",
+	
 	### CALCULATOR
-	calc_clear_btn: calcBtnPath & "clear_button",
-	calc_decimal_btn: calcBtnPath & "decimal_button",
-	calc_history_tab: calcTabPath & "history_tab",
-	calc_memstore_btn: calcBtnPath & "memory_store_button",
-	calc_menu_btn: calcBtnPath & "menu_button",
+	calc_clear_btn: calcBtnPath & "clear",
+	calc_decimal_btn: calcBtnPath & "decimal",
+	calc_history_tab: calcTabPath & "history",
+	calc_memclear_btn: calcBtnPath & "memory_clear",
+	calc_memstore_btn: calcBtnPath & "memory_store",
+	calc_menu_btn: calcBtnPath & "menu",
 	calc_numpad: calcPath & "numpad",
 	calc_operators: calcPath & "operators",
 	
 	### OPERATING SYSTEM
 	sys_close_window_btn: sysBtnPath & "window_close",
 	sys_max_window_btn: sysBtnPath & "window_maximize",
+	sys_min_window_btn: sysBtnPath & "window_minimize",
 	sys_restore_window_btn: sysBtnPath & "window_restore",
+	sys_start_btn: sysBtnPath & "start",
 	sys_taskbar_icon: sysPath & "taskbar_icons",
+	
+	### WEBSITE SUT
+	website_forgot_pwd_btn: wwwBtnPath & "forgot_pwd",
+	website_login_btn: wwwBtnPath & "login",
+	website_logo: wwwPath & "logo",
+	website_logout_btn: wwwBtnPath & "logout",
 }
 
 return imagePaths
@@ -51,7 +74,7 @@ return imagePaths
 
 
 // Returns the value associated with the specified top-level key
--- Example: log imgPath.forKey("calc_decimal_btn")
+-- Example: log imagePath.forKey("calc_decimal_btn")
 function forKey imgKey
 	put the strictProperties into origSP
 	set the strictProperties to true
@@ -59,7 +82,7 @@ function forKey imgKey
 	put the duplicatePropertyKeyMode into origDPKM
 	set the duplicatePropertyKeyMode to error
 	
-	put imgPath().(imgKey) into imagePath
+	put imagePath().(imgKey) into imagePath
 	set the strictProperties to origSP
 	set the duplicatePropertykeyMode to origDPKM
 	
@@ -69,24 +92,24 @@ end forKey
 
 
 // Returns the image path for the specified number
--- Example: log imgPath.forNumber(7)
+-- Example: log imagePath.forNumber(7)
 function forNumber num
 	assert that (0..9 as a list) contains num
-	return imgPath.forKey("calc_numpad") & num & "/"
+	return imagePath.forKey("calc_numpad") & num & "/"
 end forNumber
 
 
 // Returns the image path for the specified operator
--- Example: log imgPath.forOperator("add")
+-- Example: log imagePath.forOperator("add")
 function forOperator op
 	assert that ["divide", "multiply", "subtract", "add", "equals"] contains op
-	return imgPath.forKey("calc_operators") & op & "/"
+	return imagePath.forKey("calc_operators") & op & "/"
 end forOperator
 
 
 // Returns the image path for the specified application's taskbar icon
--- Example: log imgPath.taskbarIconFor("calculator")
+-- Example: log imagePath.taskbarIconFor("calculator")
 function taskbarIconFor appName
 	assert that ["calculator"] contains appName
-	return imgPath.forKey("sys_taskbar_icon") & appName & "/"
+	return imagePath.forKey("sys_taskbar_icon") & appName & "/"
 end taskbarIconFor

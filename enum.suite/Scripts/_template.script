@@ -1,0 +1,23 @@
+﻿set myPList to {
+
+}
+
+return myPList
+
+
+-- -- -- -- -- -- -- -- -- -- // -- -- -- -- -- -- -- -- -- -- 
+
+
+function forKey itemKey
+	put the strictProperties into origSP
+	set the strictProperties to true
+	
+	put the duplicatePropertyKeyMode into origDPKM
+	set the duplicatePropertyKeyMode to error
+	
+	//put <SCRIPT_NAME>().(itemKey) into listComponent
+	set the strictProperties to origSP
+	set the duplicatePropertykeyMode to origDPKM
+	
+	return listComponent
+end forKey

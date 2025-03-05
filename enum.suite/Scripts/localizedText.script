@@ -1,0 +1,109 @@
+﻿(* 
+
+ADDING NEW LANGUAGE
+In order to add newly supported languages:
+    1. create a new script under the languages/ folder with the correctly formatted localization shortcode (e.g. German is commonly indicated by 'de' for Deutsche).
+    2. Next, within the localizedText script, ensure your language is also added to the localizationPaths property list. Use the shortcode defined within step 1 as the key, then specify the corresponding filepath as the value. Using German as another example, we would add the following entry:
+
+    de: rootFolder & "de";
+
+    3. Copy the contents of your default language script into your new script and update all entries with the corresponding text. If there are text strings that are not localized for the new language, simply remove the entire line from the new script.
+
+- - - - - - - - - - - - - - - - - - - - - 
+
+ADDING NEW LOCALIZATION ENTRY
+In order to add a newly supported localization:
+    1. Create a new line within the property list for your default language.
+    2. Define a unique key to be used when referencing this text. Note that the key should be descriptive enough to identify the label or the purpose, and it doesn't necessarily need to match the label's actual text.
+    3. Enter the language's corresponding text value for this key.
+    4. Copy and paste this line for any additional language that will use its own localized text.
+
+Here is an example entry:
+
+    account_add_stored_payment: "Add new payment method"
+
+NOTE: If your language is NOT meant to have a localized translation for a string, simply omit the entry from that language's dictionary. This mechanism allows for a default fallback locale to be defined for this scenario. See 'FALLBACK LANGUAGE SUPPORT' below.
+
+- - - - - - - - - - - - - - - - - - - - - 
+
+HOW TO USE
+This approach aims to offer extensible support for teams testing across multiple languages, making it easier to store large quantities of strings while reducing maintenance. Rather than relying on conditionals duplicated across the codebase and stringly-typed values, this method offloads these separate dictionaries to individual files for ease of access and readability. Additionally, any future changes to these values require only a single update to the language-specific entry, which means the rest of your code stays the same. 
+
+Normally, when searching or interacting with text on-screen, you may find snippets such as this:
+
+    click {text: "My account", caseSensitive: true, waitFor: 10}
+
+When testing across multiple languages, this would require some sort of conditional statement:
+
+    if testingLanguage is ...
+        "English": put "My account" into myAccountLabel
+        "French":  put "Mon compte" into myAccountLabel
+        "German":  put "Mein konto" into myAccountlabel
+    end if
+
+    click {text: myAccountLabel, caseSensitive: true, waitFor: 10}
+
+However, if/when new languages are added or changes are made, one must navigate (potentially) to multiple locations throughout the codebase to make updates to the conditionals or the strings. Additionally, it may not be immediately clear where these changes must take place or if any have been misssed.
+
+Instead, by relying on a global variable and intuitively-located language dictionaries, one can write the following:
+
+    put localizedText.forKey("dashboard_account_header") into myAccountLabel
+    click {text: myAccountLabel, caseSensitive: true, waitFor: 10}
+
+When product owners dictate that changes be made, you simply navigate to the corresponding language file, update the string, commit your changes, and move on. There's no need to go searching through your (sometimes confusing) codebase for simple strings to change. There's no need to rely on potentially unreliable 'Find & Replace' functionality.
+
+- - - - - - - - - - - - - - - - - - - - - 
+
+FALLBACK LANGUAGE SUPPORT
+In some scenarios, a language may not have an accepted or appropriate localization translation, and business logic will dictate that you simply use the fallback of English (or some other default language). This scenario is covered by catching missing localization keys within a dictionary and trying to find it again within the fallback dictionary before failing.
+
+ *)
+
+put "languages/" into languagesFolder
+
+set localizationPaths to {
+
+	"en-us": languagesFolder & "en-us",
+	fr: languagesFolder & "fr",
+
+}
+
+return localizationPaths
+
+-- Example: log localizedText.forKey("dashboard_account_header")
+-- Example: log localizedText.forKey("general_logout")
+function forKey localizationKey
+	put the strictProperties into origSP
+	set the strictProperties to true
+	
+	put the duplicatePropertyKeyMode into origDPKM
+	set the duplicatePropertyKeyMode to error
+	
+	put "en-us" into fallbackLanguage // sets default language
+	assert that supportedLanguages() contains fallbackLanguage
+	if universal testLanguage is empty then setTestLanguageTo fallbackLanguage
+	put localizedText().(universal testLanguage) into targetLanguageDictionary
+	
+	try
+		put (targetLanguageDictionary).run.(localizationKey) into str
+	catch  // attempts to use fallback language; will rethrow if invalid localization key is used
+		put localizedText().(fallbackLanguage) into fallbackLanguageDictionary
+		put (fallbackLanguageDictionary).run.(localizationKey) into str
+	end try
+	
+	set the strictProperties to origSP
+	set the duplicatePropertykeyMode to origDPKM
+	
+	return str
+end forKey
+
+-- Example: localizedText.setTestLanguageTo "fr"
+on setTestLanguageTo langKey
+	assert that supportedLanguages() contains langKey
+	put langKey into universal testLanguage
+end setTestLanguageTo
+
+
+function supportedLanguages
+	return localizedText().keys()
+end supportedLanguages

@@ -1,0 +1,40 @@
+﻿set colors to {
+
+	keysight_red: "182, 182, 188",
+	light_gray: "210, 210, 210",
+	chartreuse: "127, 255, 0",
+	periwinkle: "204, 204, 255",
+	lavender: "230, 230, 250",
+	sienna: "160, 82, 45",
+	dark_green: "0, 100, 0",
+	light_blue: "173, 216, 230",
+	steel_blue: "173, 216, 230",
+	crimson: "220, 20, 60",
+	khaki: "240, 230, 140",
+	coral: "255, 127, 80",
+	salmon: "250, 128, 114",
+	turquoise: "64, 224, 208",
+	violet: "238, 130, 238",
+	indigo: "75, 0, 130",
+
+}
+
+return colors
+
+
+-- -- -- -- -- -- -- -- -- -- // -- -- -- -- -- -- -- -- -- -- 
+
+-- Example: log savedColor.forKey("keysight_red")
+function forKey colorKey
+	put the strictProperties into origSP
+	set the strictProperties to true
+	
+	put the duplicatePropertyKeyMode into origDPKM
+	set the duplicatePropertyKeyMode to error
+	
+	put savedColor().(colorKey) into colorString
+	set the strictProperties to origSP
+	set the duplicatePropertykeyMode to origDPKM
+	
+	return colorString
+end forKey

@@ -1,0 +1,20 @@
+﻿set localizedText to {
+
+	### SYSTEM - TASKBAR
+	taskbar_close: "Close window",
+	taskbar_close_all: "Close all windows",
+	
+	### GENERAL
+	general_signin: "Signin",
+	general_logout: "Logout",
+	general_submit: "Submit",
+	general_cancel: "Cancel",
+	
+	### DASHBOARD
+	dashboard_welcome_message: "Welcome to your dashboard",
+	dashboard_account_header: "My account",
+	dashboard_view_all_accounts: "View all accounts",
+
+}
+
+return localizedText

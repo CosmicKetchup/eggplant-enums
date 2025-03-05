@@ -1,0 +1,14 @@
+﻿set localizedText to {
+
+	### SYSTEM - TASKBAR
+	taskbar_close: "Fermer la fenêtre",
+	taskbar_close_all: "Fermez toutes les fenêtres",
+	
+	### DASHBOARD
+	dashboard_welcome_message: "Bienvenue sur votre tableau de bord",
+	dashboard_account_header: "Mon compte",
+	dashboard_view_all_accounts: "Voir tous les comptes",
+
+}
+
+return localizedText

@@ -1,0 +1,45 @@
+﻿set styles to {
+
+	nav_primary: {
+		contrast: on,
+		contrastColor: savedColor.forKey("light_blue"),
+		contrastTolerance: 25,
+		validWords: "*",
+	},
+	nav_secondary: {
+		contrast: on,
+		contrastColor: savedColor.forKey("light_gray"),
+		DPI: 144,
+		validWords: "*",
+	},
+
+}
+
+return styles
+
+
+-- -- -- -- -- -- -- -- -- -- // -- -- -- -- -- -- -- -- -- -- 
+
+
+function forKey styleKey
+	put the strictProperties into origSP
+	set the strictProperties to true
+	
+	put the duplicatePropertyKeyMode into origDPKM
+	set the duplicatePropertyKeyMode to error
+	
+	put savedTextStyle().(styleKey) into tStyle
+	set the strictProperties to origSP
+	set the duplicatePropertykeyMode to origDPKM
+	
+	return tStyle
+end forKey
+
+
+// Returns search metrics for use with OCR calls for text within website's primary navigation menu
+-- Example: log savedTextStyle.forPrimaryNavigationWithText("About Us")
+function forPrimaryNavigationWithText myText
+	put savedTextStyle.forKey("nav_primary") into tStyle
+	put myText into tStyle.text
+	return tStyle
+end forPrimaryNavigationWithText

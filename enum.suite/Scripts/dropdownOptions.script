@@ -1,0 +1,201 @@
+﻿set ddOptions to {
+
+	### OCCUPATIONS
+	occupation: {
+		accountant: "Accountant",
+		actor: "Actor",
+		advisor_finciancial: "Financial Advisor",
+		agent_real_estate: "Realtor",
+		agent_travel: "Travel Agent",
+		analyst_quality_assurance: "Quality Assurance Analyst",
+		architect_general: "Architect",
+		architect_landscape: "Landscape Architect",
+		artist: "Artist",
+		baker: "Baker",
+		banker: "Banker",
+		barber: "Barber",
+		biologist_general: "Biologist",
+		biologist_marine: "Marine Biologist",
+		biologist_micro: "Microbiologist",
+		carpenter: "Carpenter",
+		chef: "Chef",
+		chemist: "Chemist",
+		chiropractor: "Chiropractor",
+		construction: "Construction Worker",
+		coordinator_logistics: "Logistics Coordinator",
+		curator_museum: "Museum Curator",
+		dentist: "Dentist",
+		designer_fashion: "Fashion Designer",
+		designer_graphic: "Graphic Designer",
+		designer_interior: "Interior Designer",
+		designer_web: "Web Designer",
+		developer_software: "Software Developer",
+		detective: "Detective",
+		dietician: "Dietician",
+		doctor: "Doctor",
+		driver_trucking: "Truck Driver",
+		electrician: "Electrician",
+		farmer: "Farmer",
+		firefighter: "Firefighter",
+		florist: "Florist",
+		food_service_waiter: "Waiter",
+		engineer_civil: "Civil Engineer",
+		engineer_nuclear: "Nuclear Engineer",
+		engineer_sound: "Sound Engineer",
+		geologist: "Geologist",
+		hairdresser: "Hairdresser",
+		historian: "Historian",
+		journalist: "Journalist",
+		law_enforcement: "Police Officer",
+		lawyer: "Lawyer",
+		librarian: "Librarian",
+		loan_officer: "Loan Officer",
+		locksmith: "Locksmith",
+		machinist: "Machinist",
+		metalworker: "Metalworker",
+		meteorologist: "Meteorologist",
+		manager_hotel: "Hotel Manager",
+		manager_human_resources: "Human Resources Manager",
+		manager_marketing: "Marketing Manager",
+		mathematician: "Mathematician",
+		mechanic: "Mechanic",
+		midwife: "Midwife",
+		musician: "Musician",
+		nurse: "Nurse",
+		nutritionist: "Nutritionist",
+		optician: "Optician",
+		painter: "Painter",
+		paralegal: "Paralegal",
+		paramedic: "Paramedic",
+		park_ranger: "Park Ranger",
+		pharmacist: "Pharmacist",
+		photographer: "Photographer",
+		programmer: "Computer Programmer",
+		pilot: "Pilot",
+		plumber: "Plumber",
+		podiatrist: "Podiatrist",
+		psychologist: "Psychologist",
+		receptionist: "Receptionist",
+		scientist_general: "Scientist",
+		secretary: "Secretary",
+		security_guard: "Security Guard",
+		social_worker: "Social Worker",
+		specialist_information_technology: "IT Specialist",
+		specialist_public_relations: "Public Relations Specialist",
+		statistician: "Statistician",
+		surgeon: "Surgeon",
+		surveyor: "Surveyor",
+		tailor: "Tailor",
+		teacher_general: "Teacher",
+		teacher_kindergarten: "Kindergarten Teacher",
+		teacher_music: "Music Teacher",
+		technician_radialogy: "Radiology Technician",
+		technician_solar: "Solar Technician",
+		therapist_massage: "Massage Therapist",
+		therapist_occupational: "Occupational Therapist",
+		therapist_physical: "Physical Therapist",
+		therapist_speech: "Speech Therapist",
+		translator: "Translator",
+		veterinarian: "Veterinarian",
+		writer_general: "Writer",
+		writer_novelist: "Novelist",
+		writer_technical: "Technical Writer",
+		zoologist: "Zoologist",
+	},
+	
+	### STATES & TERRITORIES
+	location: {
+		alabama: "AL",
+		alaska: "AK",
+		american_somoa: "AS",
+		arizona: "AZ",
+		arkansas: "AR",
+		california: "CA",
+		colorado: "CO",
+		connecticut: "CT",
+		delaware: "DE",
+		district_of_columbia: "DC",
+		florida: "FL",
+		georgia: "GA",
+		guam: "GU",
+		hawaii: "HI",
+		idaho: "ID",
+		illinois: "IL",
+		indiana: "IN",
+		iowa: "IA",
+		kansas: "KS",
+		kentucky: "KY",
+		louisiana: "LA",
+		maine: "ME",
+		maryland: "MD",
+		massachusetts: "MA",
+		michigan: "MI",
+		minnesota: "MN",
+		mississippi: "MS",
+		missouri: "MO",
+		montana: "MT",
+		nebraska: "NE",
+		nevada: "NV",
+		new_hampshire: "NH",
+		new_jersey: "NJ",
+		new_mexico: "NM",
+		new_york: "NY",
+		north_carolina: "NC",
+		north_dakota: "ND",
+		northern_mariana_islands: "MP",
+		ohio: "OH",
+		oklahoma: "OK",
+		oregon: "OR",
+		pennsylvania: "PA",
+		puerto_rico: "PR",
+		rhode_island: "RI",
+		south_carolina: "SC",
+		south_dakota: "SD",
+		tennessee: "TN",
+		texas: "TX",
+		us_virgin_islands: "VI",
+		utah: "UT",
+		vermont: "VT",
+		virginia: "VA",
+		washington: "WA",
+		west_virginia: "WV",
+		wisconsin: "WI",
+		wyoming: "WY",
+	},
+}
+
+return ddOptions
+
+
+-- -- -- -- -- -- -- -- -- -- // -- -- -- -- -- -- -- -- -- -- 
+
+
+// Returns the value associated with the specified section key
+-- Example: log dropdownOptions.forKey("product")
+function forKey sectionKey
+	put the strictProperties into origSP
+	set the strictProperties to true
+	
+	put the duplicatePropertyKeyMode into origDPKM
+	set the duplicatePropertyKeyMode to error
+	
+	put dropdownOptions().(sectionKey) into ddOptions
+	set the strictProperties to origSP
+	set the duplicatePropertykeyMode to origDPKM
+	
+	return ddOptions
+end forKey
+
+
+// Dedicated handler for returning text for 'Occupation' dropdown options
+-- Example: log dropdownOptions.forOccupation("analyst_quality_assurance")
+function forOccupation opt
+	return forKey("occupation").(opt)
+end forOccupation
+
+// Dedicated handler for returning text for 'Location' dropdown options
+-- Example: log dropdownOptions.forLocation("pennsylvania")
+function forLocation opt
+	return forKey("location").(opt)
+end forLocation
+
