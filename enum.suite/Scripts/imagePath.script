@@ -1,18 +1,18 @@
 ﻿(* 
 This is an example of using the enum mechanism for storing image paths of elements within a website or application. The deeply-nested hierarchy of the image folder allows you to reference a static "key" for an element, and the forKey function provides the ability to extract the associated string value. After that, you can simply concatenate any additional state of the element as necessary:
 
-        put imgPath.forKey("sys_close_window_btn") into closeWindowButton
+        put imagePath.forKey("sys_close_window_btn") into closeWindowButton
         moveTo closeWindowButton
         assert that imageFound(image: closeWindowButton & "hover/", waitFor: 10)
 
 As with all enum scripts, you have the ability to extend this base functionality by defining additional function which consume N parameter(s) for the purpose of modifying the value of a resulting hard-coded enum key:
 
-       put imgPath.taskbarIconFor("calculator") into taskbarIcon
+       put imagePath.taskbarIconFor("calculator") into taskbarIcon
        click taskbarIcon
        put taskbarIcon & "active/" into activeTaskbarIcon
        assert that imageFound(image: activeTaskbarIcon, waitFor: 30)
 
-       put imgPath.forNumber(7) into numSeven
+       put imagePath.forNumber(7) into numSeven
        moveTo numSeven
        assert that imageFound(image: numSeven & "hover/", waitFor 10)
 
